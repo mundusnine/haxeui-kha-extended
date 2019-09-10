@@ -1,0 +1,4 @@
+<item-renderer id="paths" width="100%" >
+    <image id="type" verticalAlign="center" />
+    <label id="name" style="padding-left:25px;" />
+</item-renderer>

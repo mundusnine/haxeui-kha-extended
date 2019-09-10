@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hbox id="container" text="Project" width="100%" height="100%" >
+    <file-tree id="panel-left" width="25%" height="100%" />
+    <file-browser id="panel-right" width="75%" height="100%" />
+</hbox>

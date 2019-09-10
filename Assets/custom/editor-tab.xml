@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<tabview id="tabs" >
+    <box text="sub page 1">
+        <button text="bob" />
+    </box>
+</tabview>

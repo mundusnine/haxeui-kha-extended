@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vbox id="container" width="100%" height="100%" >
+    <label id="path" width="100%" />
+    <treeview id="tree" width="100%" />
+</vbox>
