@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module id="kha-extended">
     <resources>
-        <resource path="/haxe/ui/extended/_module/styles" prefix="img" />
+        <resource path="/haxe/ui/extended/_module/styles/dark" prefix="img" />
         <resource path="/haxe/ui/extended/custom" prefix="custom" />
     </resources>
     <components>
@@ -10,7 +10,7 @@
 
     <themes>
         <dark>
-            <style resource="img/dark/main.css" priority="-2" />
+            <style resource="img/main.css" priority="-2" />
         </dark>
     </themes>
 </module>
