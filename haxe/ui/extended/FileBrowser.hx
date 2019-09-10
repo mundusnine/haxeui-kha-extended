@@ -1,16 +1,18 @@
-package;
+package haxe.ui.extended;
 
 import haxe.ui.core.Component;
 import haxe.ui.containers.VBox;
 import haxe.ui.events.UIEvent;
 import haxe.ui.data.ListDataSource;
 
-@:build(haxe.ui.macros.ComponentMacros.build("../Assets/custom/file-browser-ui.xml"))
+@:build(haxe.ui.macros.ComponentMacros.build(
+	"../Libraries/haxeui-kha-extended/haxe/ui/extended/custom/file-browser-ui.xml"))
 class FileBrowser extends VBox {
     
 	public function new(){
         super();
-		feed.itemRenderer =  haxe.ui.macros.ComponentMacros.buildComponent("../Assets/custom/browser-items.xml");
+		feed.itemRenderer =  haxe.ui.macros.ComponentMacros.buildComponent(
+			"../Libraries/haxeui-kha-extended/haxe/ui/extended/custom/browser-items.xml");
     }
 
     @:bind(feed, UIEvent.CHANGE)

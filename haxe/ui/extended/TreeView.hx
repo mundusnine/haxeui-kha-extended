@@ -1,4 +1,4 @@
-package;
+package haxe.ui.extended;
 
 import haxe.ui.data.DataSource;
 import haxe.ui.containers.ScrollView;
@@ -6,7 +6,8 @@ import haxe.ui.components.Label;
 import haxe.ui.containers.VBox;
 import haxe.ui.events.UIEvent;
 
-@:build(haxe.ui.macros.ComponentMacros.build("../Assets/custom/tree-ui.xml"))
+@:build(haxe.ui.macros.ComponentMacros.build(
+    "../Libraries/haxeui-kha-extended/haxe/ui/extended/custom/tree-ui.xml"))
 class TreeView extends VBox {
 
     public var selectedNode:TreeNode = null;

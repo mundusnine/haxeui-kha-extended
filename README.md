@@ -1,2 +1,8 @@
 # haxeui-kha-extended
-To test out add needed libraries in Libraries folder: haxeui-core,haxeui-kha and hscript
+In your Kha project create a folder named Libraries.
+Then open a terminal and write:
+```
+cd Libraries
+git submodule add https://github.com/mundusnine/haxeui-kha-extended.git
+
+```

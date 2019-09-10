@@ -1,4 +1,4 @@
-package;
+package haxe.ui.extended;
 
 import haxe.ui.data.ListDataSource;
 

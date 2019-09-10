@@ -1,4 +1,4 @@
-package;
+package haxe.ui.extended;
 
 import haxe.ui.containers.VBox;
 import haxe.ui.containers.HBox;
@@ -7,7 +7,9 @@ import haxe.ui.core.Component;
 import haxe.ui.events.UIEvent;
 import haxe.ui.events.MouseEvent;
 
-@:build(haxe.ui.macros.ComponentMacros.build("../Assets/custom/tree-node-ui.xml"))
+
+@:build(haxe.ui.macros.ComponentMacros.build(
+    "../Libraries/haxeui-kha-extended/haxe/ui/extended/custom/tree-node-ui.xml"))
 class TreeNode extends VBox {
 
     public var parentNode:TreeNode = null;

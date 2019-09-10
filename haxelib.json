@@ -1,0 +1,13 @@
+{
+    "name": "haxeui-kha-extended",
+    "url": "https://github.com/mundusnine/haxeui-kha-extended",
+    "license": "MIT",
+    "tags": ["ui", "gui", "kha"],
+    "description": "Extended components for use with haxeui-kha",
+    "version": "0.0.1",
+    "releasenote": "First Release",
+    "contributors": ["mundusnine"],
+    "dependencies": {
+        "haxeui-kha": ""
+    }
+  }
