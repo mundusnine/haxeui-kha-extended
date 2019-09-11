@@ -5,6 +5,7 @@ import haxe.ui.containers.ScrollView;
 import haxe.ui.components.Label;
 import haxe.ui.containers.VBox;
 import haxe.ui.events.UIEvent;
+import haxe.ui.core.Component;
 
 @:build(haxe.ui.macros.ComponentMacros.build(
     "../Libraries/haxeui-kha-extended/haxe/ui/extended/custom/tree-ui.xml"))
@@ -27,6 +28,10 @@ class TreeView extends VBox {
 
     public function new() {
         super();
+        percentWidth = 100.0;
+        percentHeight = 100.0;
+        var comp:Component = findComponent("scrollview-contents");
+        comp.percentWidth = 100.0;
     }
 
     public function addNode(data:NodeData):TreeNode {

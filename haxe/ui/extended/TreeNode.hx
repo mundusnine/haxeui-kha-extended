@@ -23,6 +23,7 @@ class TreeNode extends VBox {
 
     public function new(data:NodeData = null,tv:TreeView = null){
         super();
+        percentWidth = _hbox.percentWidth = node.percentWidth = 100.0;
         _tv = tv;
         _data = data;
         name.text = data.name;

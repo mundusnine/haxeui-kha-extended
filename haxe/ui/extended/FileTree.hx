@@ -20,6 +20,7 @@ class FileTree extends VBox {
 	}
 	public function new(){
         super();
+		id = "filetree";
 		path.disabled = true;
 		path.text=" ";
     }

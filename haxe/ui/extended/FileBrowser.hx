@@ -11,10 +11,13 @@ class FileBrowser extends VBox {
     
 	public function new(){
         super();
+		id = "filebrowser";
 		feed.itemRenderer =  haxe.ui.macros.ComponentMacros.buildComponent(
 			"../Libraries/haxeui-kha-extended/haxe/ui/extended/custom/browser-items.xml");
+		this.percentWidth = 100.0;
+        this.percentHeight = 100.0;
     }
-
+	
     @:bind(feed, UIEvent.CHANGE)
 	function selectedDir(e){
 		var folder:NodeData = feed.selectedItem;
