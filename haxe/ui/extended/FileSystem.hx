@@ -22,7 +22,7 @@ class FileSystem {
 		if (path == "") path = initPath(systemId);
 		switch (systemId){
 			case "Windows":
-				return path;
+				return StringTools.replace(path, "/", "\\");
 			case "Linux":
 				if(path.charAt(0) == "~"){
 					var temp = path.split('~');
