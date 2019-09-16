@@ -8,7 +8,7 @@ import haxe.ui.events.UIEvent;
 import haxe.ui.core.Component;
 
 @:build(haxe.ui.macros.ComponentMacros.build(
-    "../Libraries/haxeui-kha-extended/haxe/ui/extended/custom/tree-ui.xml"))
+    "haxe/ui/extended/custom/tree-ui.xml"))
 class TreeView extends VBox {
 
     public var selectedNode:TreeNode = null;

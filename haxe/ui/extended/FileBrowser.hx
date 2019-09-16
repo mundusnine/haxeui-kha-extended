@@ -6,14 +6,14 @@ import haxe.ui.events.UIEvent;
 import haxe.ui.data.ListDataSource;
 
 @:build(haxe.ui.macros.ComponentMacros.build(
-	"../Libraries/haxeui-kha-extended/haxe/ui/extended/custom/file-browser-ui.xml"))
+	"haxe/ui/extended/custom/file-browser-ui.xml"))
 class FileBrowser extends VBox {
     
 	public function new(){
         super();
 		id = "filebrowser";
 		feed.itemRenderer =  haxe.ui.macros.ComponentMacros.buildComponent(
-			"../Libraries/haxeui-kha-extended/haxe/ui/extended/custom/browser-items.xml");
+			"haxe/ui/extended/custom/browser-items.xml");
 		this.percentWidth = 100.0;
         this.percentHeight = 100.0;
     }

@@ -5,7 +5,7 @@ import haxe.ui.containers.VBox;
 import haxe.ui.events.UIEvent;
 
 @:build(haxe.ui.macros.ComponentMacros.build(
-	"../Libraries/haxeui-kha-extended/haxe/ui/extended/custom/file-tree-ui.xml"))
+	"haxe/ui/extended/custom/file-tree-ui.xml"))
 class FileTree extends VBox {
     
     var _brother:FileBrowser = null;

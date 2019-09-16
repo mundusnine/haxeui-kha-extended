@@ -92,4 +92,35 @@ class FileSystem {
         curDir = path;
         return files;
     }
+
+	public static function isDirectory(path:String):Bool {
+		#if kha_krom
+		return path.charAt(path.length)=="/";
+		#elseif kha_kore
+		return sys.FileSystem.isDirectory(path);
+		#elseif kha_webgl
+		return try untyped require('fs').statSync(path).isDirectory() catch (e:Dynamic) false;
+		#else
+		return false;
+		#end
+		
+	}
+	public static function createDirectory(path:String):Void {
+		#if kha_krom
+		var cmd = "mkdir";
+		var systemId = kha.System.systemId;
+		if (systemId == "Windows") {
+			sep = "\\";
+			path = StringTools.replace(path, "\\\\", "\\");
+			path = StringTools.replace(path, "\r", "");
+		}
+		Krom.sysCommand(cmd + '"' + path + '"');
+		#elseif kha_kore
+		sys.FileSystem.createDirectory(path);
+		#elseif kha_webgl
+		try  untyped require('fs').mkdirSync(path) catch (e:Dynamic) throw e;
+		#else
+		throw "Target platform doesn't support creating a directory";
+		#end
+	}
 }

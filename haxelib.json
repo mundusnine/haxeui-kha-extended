@@ -6,8 +6,5 @@
     "description": "Extended components for use with haxeui-kha",
     "version": "0.0.1",
     "releasenote": "First Release",
-    "contributors": ["mundusnine"],
-    "dependencies": {
-        "haxeui-kha": ""
-    }
+    "contributors": ["mundusnine"]
   }
