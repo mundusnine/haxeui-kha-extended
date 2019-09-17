@@ -90,6 +90,12 @@ class FileSystem {
 
 		#end
         curDir = path;
+		if(folderOnly){
+			return files.filter(function (e:String){
+				trace(path+sep+e);
+				return isDirectory(path+sep+e);
+			});
+		}
         return files;
     }
 

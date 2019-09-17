@@ -14,7 +14,7 @@ class FileTree extends VBox {
 		return _brother;
 	}
 	function set_brother(fb:FileBrowser){
-		tree.dataSource = cast(fb.feed.dataSource);
+		tree.dataSource = cast(Handler.getFilesData(fb.path.text,true,0,true));
 		_brother = fb;
 		return _brother;
 	}
@@ -23,31 +23,16 @@ class FileTree extends VBox {
 		id = "filetree";
 		path.disabled = true;
 		path.text=" ";
+		tree.filterNodes = ["..",""];
     }
 
     @:bind(tree, UIEvent.CHANGE)
 	function selectedDir(e){
 		var folder:NodeData = tree.selectedNode.data;
-        var dataHolder = brother != null ? brother:this;
-		if(folder.name == ".."){
-			var path = FileSystem.curDir;
-			var i1 = path.indexOf("/");
-			var i2 = path.indexOf("\\");
-			var nested =
-				(i1 > -1 && path.length - 1 > i1) ||
-				(i2 > -1 && path.length - 1 > i2);
-			if (nested) {
-				path = path.substring(0, path.lastIndexOf(FileSystem.sep));
-				// Drive root
-				if (path.length == 2 && path.charAt(1) == ":") path += FileSystem.sep;
-			}
-			Handler.updateData(dataHolder,path);
-
-		}
-		else if(folder.name.split('.')[0] == folder.name){
-			if(Reflect.hasField(folder,"childs")){
-				Handler.updateData(dataHolder,folder.path,folder.childs);
-			}
+		if(folder.name.split('.')[0] == folder.name){
+			var dataHolder = brother != null ? brother:this;
+			Handler.updateData(dataHolder,folder.path);
+			
 		}
 	}
 }

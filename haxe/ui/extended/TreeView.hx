@@ -12,13 +12,15 @@ import haxe.ui.core.Component;
 class TreeView extends VBox {
 
     public var selectedNode:TreeNode = null;
+
+    //To filter out specific nodes just add the names to this field
+    public var filterNodes:Array<String> = [];
     public var dataSource(get,set):DataSource<NodeData>;
     function get_dataSource(){
         return _dataSource;
     }
     function set_dataSource(ds:DataSource<NodeData>){
         _dataSource = ds;
-        // clear();
         for( i in 0...ds.size){
             addNode(ds.get(i));
         }
@@ -34,10 +36,11 @@ class TreeView extends VBox {
         comp.percentWidth = 100.0;
     }
 
-    public function addNode(data:NodeData):TreeNode {
-        var node  = new TreeNode(data,this);
-        feed.addComponent(node);
-       return node;
+    public function addNode(data:NodeData):Void {
+        if(!filterOut(data.name)){
+            var node  = new TreeNode(data,this);
+            feed.addComponent(node);
+        }
     }
     
     function clear() {
@@ -63,5 +66,12 @@ class TreeView extends VBox {
         }
         
         return node;
+    }
+    public function filterOut(name:String):Bool{
+        for( filter in filterNodes ){
+            if(name == filter)
+                return true;
+        }
+        return false;
     }
 }

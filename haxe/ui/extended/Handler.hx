@@ -10,14 +10,15 @@ class Handler {
 		var feed:ListView = comp.findComponent('feed',ListView);
         feed.dataSource = data != null ? data : getFilesData(path);
 		var parPath:Label = comp.findComponent('path',Label);
-		var par:NodeData  = feed.dataSource.get(feed.dataSource.size-1);
 		if(!parPath.disabled)
-			parPath.text = par.path;
-		FileSystem.curDir = par.path;
+			parPath.text = path;
+
+		FileSystem.curDir = path;
+		var par:NodeData  = feed.dataSource.get(feed.dataSource.size-1);
 		feed.dataSource.remove(par);
 		comp.invalidateComponentLayout();
 	}
-    static public function getFilesData(path:String, folderOnly = false):ListDataSource<NodeData> {
+    static public function getFilesData(path:String, folderOnly = false,count=0,recursive=false):ListDataSource<NodeData> {
 
 		var files = FileSystem.getFiles(path,folderOnly);
         if(path=="")
@@ -29,8 +30,9 @@ class Handler {
 			if (f == "" || f.charAt(0) == ".") continue; // Skip hidden
             var p = path;
             if (path.charAt(path.length - 1) != FileSystem.sep) p += FileSystem.sep;
-			if(f.split('.')[0] == f){
-            	ds.add({path:p+f,name: f, type: findType(p+f),childs: getFilesData(p+f) });
+			if(f.split('.')[0] == f && count < 2){
+				count = !recursive ? count+1:0;
+            	ds.add({path:p+f,name: f, type: findType(p+f),childs: getFilesData(p+f,folderOnly,count,recursive) });
 			}
 			else {
 				ds.add({path:p+f,name: f, type: findType(p+f)});

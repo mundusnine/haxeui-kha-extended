@@ -92,7 +92,7 @@ class TreeNode extends VBox {
                 if(data.childs.size > 2){
                     for(n in 0...data.childs.size){
                         var d = data.childs.get(n);
-                        if(d.name == "" || d.name == "..")
+                        if(_tv.filterOut(d.name))
                             continue;
                         this.addNode(d);
                     }

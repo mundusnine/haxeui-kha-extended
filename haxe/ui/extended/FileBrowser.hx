@@ -40,6 +40,9 @@ class FileBrowser extends VBox {
 			if(Reflect.hasField(folder,"childs")){
 				Handler.updateData(this,folder.path,folder.childs);
 			}
+			else {
+				Handler.updateData(this,folder.path);
+			}
 		}
 	}
 }
