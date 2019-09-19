@@ -35,6 +35,30 @@ class FileSystem {
 		}
 	}
     
+	static public function exists(path:String){
+		#if kha_krom
+		var save = Krom.getFilesLocation() + sep + dataPath + "exists.txt";
+		var systemId = kha.System.systemId;
+		path = fixPath(path,systemId);
+		var cmd = 'if [ -f "$path" ]; then\n\techo "true"\nelse\n\techo "false"\nfi > $save';
+		if (systemId == "Windows") {
+			// cmd = "dir /b ";
+			// sep = "\\";
+			// path = StringTools.replace(path, "\\\\", "\\");
+			// path = StringTools.replace(path, "\r", "");
+			return false;
+		}
+		Krom.sysCommand(cmd);
+		var str = haxe.io.Bytes.ofData(Krom.loadBlob(save)).toString();
+		return str == "true";
+		#elseif kha_kore
+		return sys.FileSystem.exists(path);
+		#elseif kha_webgl
+		return untyped require('fs').existsSync(path);
+		#else
+		return false;
+		#end
+	}
     static public function getFiles(path:String, folderOnly =false){
 
         #if kha_krom
@@ -92,7 +116,6 @@ class FileSystem {
         curDir = path;
 		if(folderOnly){
 			return files.filter(function (e:String){
-				trace(path+sep+e);
 				return isDirectory(path+sep+e);
 			});
 		}
@@ -111,7 +134,7 @@ class FileSystem {
 		#end
 		
 	}
-	public static function createDirectory(path:String):Void {
+	public static function createDirectory(path:String,onDone:Void->Void = null):Void {
 		#if kha_krom
 		var cmd = "mkdir";
 		var systemId = kha.System.systemId;
@@ -121,12 +144,39 @@ class FileSystem {
 			path = StringTools.replace(path, "\r", "");
 		}
 		Krom.sysCommand(cmd + '"' + path + '"');
+		if(onDone!= null)
+			onDone();
 		#elseif kha_kore
 		sys.FileSystem.createDirectory(path);
+		if(onDone!= null)
+			onDone();
 		#elseif kha_webgl
-		try  untyped require('fs').mkdirSync(path) catch (e:Dynamic) throw e;
+		try  untyped require('fs').mkdir(path,function(err){
+			if(err) throw err;
+			else if(onDone!= null)
+				onDone();
+		});
 		#else
 		throw "Target platform doesn't support creating a directory";
+		#end
+	}
+	public static function saveToFile(path:String,data:haxe.io.Bytes,onDone:Void->Void = null){
+		#if kha_krom
+		Krom.fileSaveBytes(path,data.getData());
+		if(onDone!= null)
+			onDone();
+		#elseif kha_kore
+		sys.io.File.saveBytes(path,data);
+		if(onDone!= null)
+			onDone();
+		#elseif kha_webgl
+		untyped require('fs').writeFile(path,data,function (err){
+			if(err) throw err;
+			else if(onDone!= null)
+				onDone();
+		});
+		#else
+		throw "Target platform doesn't support saving data to files";
 		#end
 	}
 }
