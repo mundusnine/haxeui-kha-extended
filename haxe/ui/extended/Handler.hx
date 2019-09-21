@@ -20,9 +20,9 @@ class Handler {
 	}
     static public function getFilesData(path:String, folderOnly = false,count=0,recursive=false):ListDataSource<NodeData> {
 
-		var files = FileSystem.getFiles(path,folderOnly);
         if(path=="")
-            path = FileSystem.curDir;
+            path = FileSystem.curDir;	
+		var files = FileSystem.getFiles(path,folderOnly);
         var ds = new ListDataSource<NodeData>();
 		ds.add({name: "..",path: "", type: ""});
         // Directory contents

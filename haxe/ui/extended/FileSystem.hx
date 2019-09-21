@@ -82,8 +82,10 @@ class FileSystem {
 
 		path = fixPath(path,kha.System.systemId);
 		if(StringTools.contains(path,"$HOME")){
-			var home = new sys.io.Process("echo",["$HOME"]).stdout.readAll().toString();
-			path = StringTools.replace(path,"$HOME",home);
+			var names = Sys.programPath().split('/');
+			names.pop(); 
+			path = names.join('/');	
+			trace(path);
 		}
 		var files = sys.FileSystem.isDirectory(path) ? sys.FileSystem.readDirectory(path) : [];
 
