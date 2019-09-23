@@ -117,16 +117,27 @@ class FileSystem {
 		#end
         curDir = path;
 		if(folderOnly){
-			return files.filter(function (e:String){
+			files = files.filter(function (e:String){
 				return isDirectory(path+sep+e);
 			});
 		}
+		#if kha_krom
+		for(i in 0...files.length){
+			var f = files[i];
+			if(f.charAt(f.length-1) == '/'){
+				var temp = f.split('/');
+				temp.pop();
+				files[i] = temp.join('/');
+			}
+		}
+		
+		#end
         return files;
     }
-
+	
 	public static function isDirectory(path:String):Bool {
 		#if kha_krom
-		return path.charAt(path.length)=="/";
+		return path.charAt(path.length-1)=="/";
 		#elseif kha_kore
 		return sys.FileSystem.isDirectory(path);
 		#elseif kha_webgl
