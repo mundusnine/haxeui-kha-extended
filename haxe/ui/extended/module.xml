@@ -6,6 +6,7 @@
     </resources>
     <components>
         <class package="haxe.ui.extended" />
+        <class file="/custom/transform.xml" />
     </components>
 
     <themes>

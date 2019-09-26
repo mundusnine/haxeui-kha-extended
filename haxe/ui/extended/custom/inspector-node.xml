@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hbox id="ins_hbox">
+    <vbox id="content" style="vertical-align: center">
+        <transform id="transform" />
+        <label id="dataref" />
+    </vbox>
+</hbox>

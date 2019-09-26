@@ -16,6 +16,7 @@ class TreeView extends VBox {
     //To filter out specific nodes just add the names to this field
     public var filterNodes:Array<String> = [];
     public var dataSource(get,set):DataSource<NodeData>;
+    public var minChilds:Int = 0;
     function get_dataSource(){
         return _dataSource;
     }

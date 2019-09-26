@@ -30,7 +30,7 @@ class TreeNode extends VBox {
         type.resource = data.type;
         expander.resource = "img/blank.png";
         if(Reflect.hasField(data,"childs")){
-            if(data.childs.size > 2){
+            if(data.childs.size > _tv.minChilds){
                 expander.resource = "img/control-000-small.png";
             }
         }
@@ -89,7 +89,7 @@ class TreeNode extends VBox {
         // Add nodes on expanding
         if(childComponents.length == 1){
             if(Reflect.hasField(data,"childs")){
-                if(data.childs.size > 2){
+                if(data.childs.size > _tv.minChilds){
                     for(n in 0...data.childs.size){
                         var d = data.childs.get(n);
                         if(_tv.filterOut(d.name))

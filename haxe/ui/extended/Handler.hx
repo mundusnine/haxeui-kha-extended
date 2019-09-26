@@ -19,9 +19,7 @@ class Handler {
 		comp.invalidateComponentLayout();
 	}
     static public function getFilesData(path:String, folderOnly = false,count=0,recursive=false):ListDataSource<NodeData> {
-
-        if(path=="")
-            path = FileSystem.curDir;	
+	
 		var files = FileSystem.getFiles(path,folderOnly);
         var ds = new ListDataSource<NodeData>();
 		ds.add({name: "..",path: "", type: ""});

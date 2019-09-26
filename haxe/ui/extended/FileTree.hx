@@ -23,6 +23,7 @@ class FileTree extends VBox {
 		id = "filetree";
 		path.disabled = true;
 		path.text=" ";
+		tree.minChilds = 2;
 		tree.filterNodes = ["..",""];
     }
 
