@@ -3,5 +3,13 @@
     <vbox id="content" style="vertical-align: center">
         <transform id="transform" />
         <label id="dataref" />
+        <checkbox id="isParticle" text="is particle" />
+        <checkbox id="visible" text="visible" />
+        <checkbox id="visibleMesh" text="visible mesh" />
+        <checkbox id="visibleShadow" text="visible shadow" />
+        <checkbox id="mobile" text="mobile" />
+        <checkbox id="autoSpawn" text="spawn on load" />
+        <checkbox id="localOnly" text="Local matrix only" />
+        <checkbox id="sampled" text="Object action sampled" />
     </vbox>
 </hbox>

@@ -1,26 +1,26 @@
 <vbox>
     <hbox id="pos" text="position">
         <label text="x"/>
-        <stepper id="px" />
+        <numberstepper id="px" pos="0.0" step="0.1" />
         <label text="y"/>
-        <stepper id="py" />
+        <numberstepper id="py" pos="0.0" step="0.1" />
         <label text="z"/>
-        <stepper id="pz" />
+        <numberstepper id="pz" pos="0.0" step="0.1" />
     </hbox>
     <hbox id="rot" text="rotation">
         <label text="x"/>
-        <stepper id="rx"/>
+        <numberstepper id="rx" pos="0.0" />
         <label text="y"/>
-        <stepper id="ry" />
+        <numberstepper id="ry" pos="0.0" />
         <label text="z"/>
-        <stepper id="rz" />
+        <numberstepper id="rz" pos="0.0" />
     </hbox>
     <hbox id="scale" text="scale">
         <label text="x"/>
-        <stepper id="sx"/>
+        <numberstepper id="sx" pos="0.0" step="0.1" />
         <label text="y"/>
-        <stepper id="sy" />
+        <numberstepper id="sy" pos="0.0" step="0.1" />
         <label text="z"/>
-        <stepper id="sz" />
+        <numberstepper id="sz" pos="0.0" step="0.1" />
     </hbox>
 </vbox>

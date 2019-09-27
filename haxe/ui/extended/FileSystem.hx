@@ -18,16 +18,50 @@ class FileSystem {
 		// %HOMEDRIVE% + %HomePath%
 		// ~
 	}
-	static function fixPath(path:String,systemId:String){
+	static public function fixPath(path:String){
+		#if kha_webgl
+		var systemId = "None";
+		var userAgent = untyped navigator.userAgent.toLowerCase();
+		if (userAgent.indexOf(' electron/') > -1) {
+			var pp = untyped window.process.platform;
+			systemId = pp == "win32" ? "Windows" : (pp == "darwin" ? "OSX" : "Linux");
+		}
+		#else
+		var systemId = kha.System.systemId;
+		#end
+		
 		if (path == "") path = initPath(systemId);
 		switch (systemId){
 			case "Windows":
 				return StringTools.replace(path, "/", "\\");
 			case "Linux":
-				if(path.charAt(0) == "~"){
-					var temp = path.split('~');
-					temp[0]="$HOME";
-					path = temp.join("");
+				var home ="/";
+				if(StringTools.contains(path,"$HOME") || path.charAt(0) == "~"){
+					#if kha_krom
+					var save = Krom.getFilesLocation() + sep + dataPath + "HOME.txt";
+					Krom.sysCommand("echo $HOME "+'> $save');
+					home = haxe.io.Bytes.ofData(Krom.loadBlob(save)).toString();
+					var temp = home.split("\n");
+					temp.pop();
+					home = temp.join("");
+					#elseif kha_kore
+					var names = Sys.programPath().split('/');
+					names.pop(); 
+					path = names.join('/');
+
+					#elseif kha_webgl
+					var userAgent = untyped navigator.userAgent.toLowerCase();
+					if (userAgent.indexOf(' electron/') > -1) {
+						home = untyped process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
+					}
+					
+					#end
+					if(path.charAt(0) == "~"){
+						path = StringTools.replace(path,"~",home);
+					}
+					else {
+						path = StringTools.replace(path,"$HOME",home);
+					}
 				}
 				return path;
 			default:
@@ -36,10 +70,10 @@ class FileSystem {
 	}
     
 	static public function exists(path:String){
+		path = fixPath(path);
 		#if kha_krom
 		var save = Krom.getFilesLocation() + sep + dataPath + "exists.txt";
 		var systemId = kha.System.systemId;
-		path = fixPath(path,systemId);
 		var cmd = 'if [ -f "$path" ]; then\n\techo "true"\nelse\n\techo "false"\nfi > $save';
 		if (systemId == "Windows") {
 			// cmd = "dir /b ";
@@ -72,7 +106,7 @@ class FileSystem {
 			path = StringTools.replace(path, "\\\\", "\\");
 			path = StringTools.replace(path, "\r", "");
 		}
-		path = fixPath(path,systemId);
+		path = fixPath(path);
 		var save = Krom.getFilesLocation() + sep + dataPath + "dir.txt";
 		if (path != lastPath) Krom.sysCommand(cmd + '"' + path + '"' + ' > ' + '"' + save + '"');
 		lastPath = path;
@@ -81,12 +115,6 @@ class FileSystem {
 		#elseif kha_kore
 
 		path = fixPath(path,kha.System.systemId);
-		if(StringTools.contains(path,"$HOME")){
-			var names = Sys.programPath().split('/');
-			names.pop(); 
-			path = names.join('/');	
-			trace(path);
-		}
 		var files = sys.FileSystem.isDirectory(path) ? sys.FileSystem.readDirectory(path) : [];
 
 		#elseif kha_webgl
@@ -95,14 +123,8 @@ class FileSystem {
 
 		var userAgent = untyped navigator.userAgent.toLowerCase();
 		if (userAgent.indexOf(' electron/') > -1) {
-			var pp = untyped window.process.platform;
-			var systemId = pp == "win32" ? "Windows" : (pp == "darwin" ? "OSX" : "Linux");
 			try {
-				path = fixPath(path,systemId);
-				if(StringTools.contains(path,"$HOME")){
-					var home = untyped process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
-					path = StringTools.replace(path,"$HOME",home);
-				}
+				path = fixPath(path);
 				files = untyped require('fs').readdirSync(path);
 			}
 			catch(e:Dynamic) {
