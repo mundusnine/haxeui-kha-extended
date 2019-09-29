@@ -1,15 +1,31 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<hbox id="ins_hbox">
-    <vbox id="content" style="vertical-align: center">
+<hbox id="ins_hbox" width="100%" >
+    <vbox id="content" width="100%" style="vertical-align: center">
         <transform id="transform" />
-        <label id="dataref" />
+        <hbox width="100%" >
+            <label text="Data Ref:" width="25%" />
+            <textfield id="dataref" width="75%" />
+        </hbox>
+        <inspectorfield id="materialRefs" text="Materials:"  width="100%" />
         <checkbox id="isParticle" text="is particle" />
+        <hbox width="100%" >
+            <label text="Group Ref:" width="25%"/>
+            <textfield id="groupref" width="75%" />
+        </hbox>
         <checkbox id="visible" text="visible" />
         <checkbox id="visibleMesh" text="visible mesh" />
         <checkbox id="visibleShadow" text="visible shadow" />
         <checkbox id="mobile" text="mobile" />
         <checkbox id="autoSpawn" text="spawn on load" />
         <checkbox id="localOnly" text="Local matrix only" />
+        <hbox width="100%" >
+            <label text="Tilesheet:" width="25%" />
+            <textfield id="tilesheetRef" width="75%" />
+        </hbox>
+        <hbox width="100%" >
+            <label text="Tilesheet actions:" width="25%" />
+            <textfield id="tilesheetActionRef" width="75%" />
+        </hbox>
         <checkbox id="sampled" text="Object action sampled" />
     </vbox>
 </hbox>

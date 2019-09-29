@@ -8,6 +8,7 @@ import haxe.ui.events.UIEvent;
 import haxe.ui.events.MouseEvent;
 import haxe.ui.extended.TreeNode;
 import haxe.ui.extended.NodeData;
+import haxe.ui.data.*;
 
 
 typedef InspectorData ={
@@ -22,13 +23,17 @@ typedef InspectorData ={
     var sx:Float;
     var sy:Float;
     var sz:Float;
+    var materialRefs:Array<String>;
     var isParticle:Bool;
+    var groupref:String;
     var visible:Bool;
     var visibleMesh:Bool;
     var visibleShadow:Bool;
     var mobile:Bool;
     var autoSpawn:Bool;
     var localOnly:Bool;
+    var tilesheetRef:String;
+    var tilesheetActionRef:String;
     var sampled:Bool;
     
 } 
@@ -37,10 +42,21 @@ class Resolver{
         switch(field){
             case 'isParticle'| 'visible' | 'visibleMesh'| 'mobile' | 'autoSpawn' | 'localOnly' | 'sampled':
                 return "selected";
-            case 'dataref':
+            case 'dataref' | 'groupref' | 'tilesheetActionRef' | 'tilesheetRef':
                 return "text";
+            case 'materialRefs':
+                return 'dataSource';
             default:
                 return "pos";
+        }
+    }
+    inline static public function inferType(param:Dynamic):ArrayDataSource<Dynamic> {
+        var ntt = new InspectorTypeTransformer();
+        if(Std.is(param,Int) || Std.is(param,String) || Std.is(param,Bool) || Std.is(param,Float) ){
+            return new ArrayDataSource<Dynamic>(ntt);
+        }
+        else{
+            return new ArrayDataSource<Dynamic>();
         }
     }
 }
@@ -63,7 +79,22 @@ class InspectorNode extends TreeNode {
         for(f in Reflect.fields(data)){
             if(Reflect.hasField(this,f)){
                 var temp = Reflect.field(this,f);
-                Reflect.setProperty(temp,Resolver.resolve(f),Reflect.getProperty(data,f));
+                var type = Resolver.resolve(f);
+                if(type == 'dataSource'){
+                    var value = Reflect.getProperty(data,f);
+                    var ds = Resolver.inferType(value[0]);
+                    for(v in value){
+                        ds.add(v);
+                        trace(ds.get(ds.size-1));
+                    }
+                    var feed = Reflect.field(temp,"feed");
+                    Reflect.setProperty(feed,type,ds);
+                    Reflect.setProperty(temp,"feed",feed);
+                }
+                else{
+                    Reflect.setProperty(temp,type,Reflect.getProperty(data,f));
+                }
+                
                 Reflect.setProperty(this,f,temp);
             }
         }

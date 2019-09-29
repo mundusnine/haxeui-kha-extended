@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<vbox id="container" width="100%" >
+    <hbox width="100%">
+        <image id="expander" resource="img/control-000-small.png" style="vertical-align: center;cursor:pointer;" />
+        <label id="name" />
+    </hbox>
+    <listview id="feed" width="100%" />
+</vbox>
