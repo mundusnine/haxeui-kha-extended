@@ -7,11 +7,15 @@
             <textfield id="dataref" width="75%" />
         </hbox>
         <inspectorfield id="materialRefs" text="Materials:"  width="100%" />
+        <inspectorfield id="particleRefs" text="Particles:"  width="100%" item="ifield-tparticle" />
         <checkbox id="isParticle" text="is particle" />
         <hbox width="100%" >
             <label text="Group Ref:" width="25%"/>
             <textfield id="groupref" width="75%" />
         </hbox>
+        <inspectorfield id="lods" text="Lods:"  width="100%" item="ifield-tlod" />
+        <inspectorfield id="objectActions" text="Actions:"  width="100%" />
+        <inspectorfield id="boneActions" text="Bone actions:"  width="100%" />
         <checkbox id="visible" text="visible" />
         <checkbox id="visibleMesh" text="visible mesh" />
         <checkbox id="visibleShadow" text="visible shadow" />

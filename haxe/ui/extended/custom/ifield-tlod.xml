@@ -1,0 +1,4 @@
+<item-renderer id="iField" width="100%" >
+    <textfield id="objectRef"  width="100%" />
+    <numberstepper id="screenSize" pos="0.0" step="0.01" min="0.0" max="1.0" />
+</item-renderer>

@@ -8,7 +8,10 @@ import haxe.ui.events.UIEvent;
 import haxe.ui.events.MouseEvent;
 import haxe.ui.extended.TreeNode;
 import haxe.ui.extended.NodeData;
+import haxe.ui.extended.InspectorField;
 import haxe.ui.data.*;
+
+import iron.data.SceneFormat;
 
 
 typedef InspectorData ={
@@ -24,8 +27,12 @@ typedef InspectorData ={
     var sy:Float;
     var sz:Float;
     var materialRefs:Array<String>;
+    var particleRefs:Array<TParticleReference>;
     var isParticle:Bool;
     var groupref:String;
+    var lods:Array<TLod>;
+    var objectActions:Array<String>;
+    var boneActions:Array<String>;
     var visible:Bool;
     var visibleMesh:Bool;
     var visibleShadow:Bool;
@@ -38,25 +45,16 @@ typedef InspectorData ={
     
 } 
 class Resolver{
-    inline static public function resolve(field:String){
+    static public function resolve(field:String){
         switch(field){
             case 'isParticle'| 'visible' | 'visibleMesh'| 'mobile' | 'autoSpawn' | 'localOnly' | 'sampled':
                 return "selected";
             case 'dataref' | 'groupref' | 'tilesheetActionRef' | 'tilesheetRef':
                 return "text";
-            case 'materialRefs':
+            case 'materialRefs' | 'objectActions' | 'boneActions' | 'particleRefs' | 'lods':
                 return 'dataSource';
             default:
                 return "pos";
-        }
-    }
-    inline static public function inferType(param:Dynamic):ArrayDataSource<Dynamic> {
-        var ntt = new InspectorTypeTransformer();
-        if(Std.is(param,Int) || Std.is(param,String) || Std.is(param,Bool) || Std.is(param,Float) ){
-            return new ArrayDataSource<Dynamic>(ntt);
-        }
-        else{
-            return new ArrayDataSource<Dynamic>();
         }
     }
 }
@@ -75,21 +73,29 @@ class InspectorNode extends TreeNode {
                 Reflect.setProperty(transform,f,temp);
             }
         }
+
+        var ds = new ArrayDataSource<Dynamic>(new InspectorTypeTransformer());
         //populate the rest
         for(f in Reflect.fields(data)){
             if(Reflect.hasField(this,f)){
-                var temp = Reflect.field(this,f);
+                var temp = Reflect.getProperty(this,f);
                 var type = Resolver.resolve(f);
                 if(type == 'dataSource'){
-                    var value = Reflect.getProperty(data,f);
-                    var ds = Resolver.inferType(value[0]);
+                    var value:Array<Dynamic> = Reflect.getProperty(data,f);
+                    ds.clear();
+                    var comp:InspectorField = findComponent(f,InspectorField);
+                    if(comp.item != null)
+                        comp.itemRenderer = comp.item;
+                        
+                    comp.dataSource = new ArrayDataSource<Dynamic>(new InspectorTypeTransformer());
                     for(v in value){
                         ds.add(v);
-                        trace(ds.get(ds.size-1));
+                        comp.dataSource.add(ds.get(ds.size-1));
                     }
-                    var feed = Reflect.field(temp,"feed");
-                    Reflect.setProperty(feed,type,ds);
-                    Reflect.setProperty(temp,"feed",feed);
+                    if(comp.text != null)
+                        comp.name.text = comp.text;
+                    comp.feed.dispatch(new UIEvent(UIEvent.CHANGE,false,"init"));
+
                 }
                 else{
                     Reflect.setProperty(temp,type,Reflect.getProperty(data,f));
