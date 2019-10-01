@@ -14,6 +14,7 @@
             <textfield id="groupref" width="75%" />
         </hbox>
         <inspectorfield id="lods" text="Lods:"  width="100%" item="ifield-tlod" />
+        <inspectorfield id="traits" text="Traits:"  width="100%" item="ifield-ttrait" />
         <inspectorfield id="objectActions" text="Actions:"  width="100%" />
         <inspectorfield id="boneActions" text="Bone actions:"  width="100%" />
         <checkbox id="visible" text="visible" />

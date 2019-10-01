@@ -31,6 +31,7 @@ typedef InspectorData ={
     var isParticle:Bool;
     var groupref:String;
     var lods:Array<TLod>;
+    var traits:Array<TTrait>;
     var objectActions:Array<String>;
     var boneActions:Array<String>;
     var visible:Bool;
@@ -51,7 +52,7 @@ class Resolver{
                 return "selected";
             case 'dataref' | 'groupref' | 'tilesheetActionRef' | 'tilesheetRef':
                 return "text";
-            case 'materialRefs' | 'objectActions' | 'boneActions' | 'particleRefs' | 'lods':
+            case 'materialRefs' | 'objectActions' | 'boneActions' | 'particleRefs' | 'lods' | 'traits' | 'parameters':
                 return 'dataSource';
             default:
                 return "pos";
@@ -82,15 +83,24 @@ class InspectorNode extends TreeNode {
                 var type = Resolver.resolve(f);
                 if(type == 'dataSource'){
                     var value:Array<Dynamic> = Reflect.getProperty(data,f);
-                    ds.clear();
                     var comp:InspectorField = findComponent(f,InspectorField);
+                    ds.clear();
                     if(comp.item != null)
                         comp.itemRenderer = comp.item;
                         
                     comp.dataSource = new ArrayDataSource<Dynamic>(new InspectorTypeTransformer());
                     for(v in value){
                         ds.add(v);
-                        comp.dataSource.add(ds.get(ds.size-1));
+                        var ndata = ds.get(ds.size-1);
+                        // for(f in Reflect.fields(data)){
+                        //     if(Resolver.resolve(f) == "dataSource" && comp.itemRenderer != null){
+                        //         var pvalue:Array<Dynamic> = Reflect.getProperty(data,f);
+                        //         var pcomp:InspectorField = new InspectorField();
+                        //         comp.feed.itemRenderer.addComponent(pcomp);
+                        //         populateInspectorField(pvalue,pcomp);
+                        //     }
+                        // }
+                        comp.dataSource.add(ndata);
                     }
                     if(comp.text != null)
                         comp.name.text = comp.text;
@@ -106,6 +116,7 @@ class InspectorNode extends TreeNode {
         }
         ins_hbox.invalidateComponent();
     }
+
     public override function addNode(data:NodeData) {
         _expanded = true;
         var newNode = new InspectorNode(cast(data),_tv);

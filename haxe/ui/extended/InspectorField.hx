@@ -27,10 +27,7 @@ class InspectorField extends VBox{
         return value;
     }
 
-    var rendrerers:Map<String,ItemRenderer> = [
-        "ifield-tparticle" => ComponentMacros.buildComponent("haxe/ui/extended/custom/ifield-tparticle.xml"),
-        "ifield-tlod" => ComponentMacros.buildComponent("haxe/ui/extended/custom/ifield-tlod.xml")
-    ];
+    static var rendrerers:Map<String,ItemRenderer> = null;
 
     public var dataSource(get,set):DataSource<Dynamic>;
     function get_dataSource(){
@@ -43,6 +40,13 @@ class InspectorField extends VBox{
 
     public function new(){
         super();
+        if(rendrerers == null){
+            rendrerers = [
+                "ifield-tparticle" => ComponentMacros.buildComponent("haxe/ui/extended/custom/ifield-tparticle.xml"),
+                "ifield-tlod" => ComponentMacros.buildComponent("haxe/ui/extended/custom/ifield-tlod.xml"),
+                "ifield-ttrait" => ComponentMacros.buildComponent("haxe/ui/extended/custom/ifield-ttrait.xml")
+            ];
+        }
 		feed.itemRenderer =  haxe.ui.macros.ComponentMacros.buildComponent(
 			"haxe/ui/extended/custom/ifield-string.xml");
 		this.percentWidth = 100.0;
@@ -67,7 +71,7 @@ class InspectorField extends VBox{
     @:bind(feed,UIEvent.CHANGE)
     function changed(e:UIEvent){
         if(e.data != null && Std.is(e.data,String) && e.data == "init"){
-            if(feed.dataSource.size == 0){
+            if(feed.dataSource ==null || feed.dataSource.size == 0){
                 _expanded =false;
                 expander.hide();
                 feed.hide();
