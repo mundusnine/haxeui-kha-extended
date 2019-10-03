@@ -87,25 +87,15 @@ class InspectorNode extends TreeNode {
                     ds.clear();
                     if(comp.item != null)
                         comp.itemRenderer = comp.item;
-                        
-                    comp.dataSource = new ArrayDataSource<Dynamic>(new InspectorTypeTransformer());
+                    
+                    if(comp.text != null)
+                        comp.name.text = comp.text;
+
                     for(v in value){
                         ds.add(v);
                         var ndata = ds.get(ds.size-1);
-                        // for(f in Reflect.fields(data)){
-                        //     if(Resolver.resolve(f) == "dataSource" && comp.itemRenderer != null){
-                        //         var pvalue:Array<Dynamic> = Reflect.getProperty(data,f);
-                        //         var pcomp:InspectorField = new InspectorField();
-                        //         comp.feed.itemRenderer.addComponent(pcomp);
-                        //         populateInspectorField(pvalue,pcomp);
-                        //     }
-                        // }
-                        comp.dataSource.add(ndata);
+                        comp.addField(ndata,comp.itemRenderer);
                     }
-                    if(comp.text != null)
-                        comp.name.text = comp.text;
-                    comp.feed.dispatch(new UIEvent(UIEvent.CHANGE,false,"init"));
-
                 }
                 else{
                     Reflect.setProperty(temp,type,Reflect.getProperty(data,f));

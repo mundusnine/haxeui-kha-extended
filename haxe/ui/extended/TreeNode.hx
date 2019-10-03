@@ -127,12 +127,15 @@ class TreeNode extends VBox {
     }
 
     public override function get_text():String {
-        return name.text;
+        if(name != null)
+            return name.text;
+        return "";
     }
     
     public override function set_text(value:String):String {
         super.set_text(value);
-        name.text = value;
+        if(name != null)
+            name.text = value;
         return value;
     }
     

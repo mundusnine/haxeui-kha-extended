@@ -1,5 +1,5 @@
-<item-renderer id="iField" width="100%" >
+<vbox id="iField" width="100%" >
     <textfield id="partname"  width="100%" />
     <textfield id="particle"  width="100%" />
     <numberstepper id="seed"  width="100%" step="1" />
-</item-renderer>
+</vbox>

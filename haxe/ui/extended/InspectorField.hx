@@ -5,81 +5,136 @@ import haxe.ui.events.MouseEvent;
 import haxe.ui.events.UIEvent;
 import haxe.ui.data.DataSource;
 import haxe.ui.core.ItemRenderer;
+import haxe.ui.core.Component;
 import haxe.ui.macros.ComponentMacros;
+import haxe.ui.extended.TreeNode;
+import haxe.ui.data.*;
 
-@:build(haxe.ui.macros.ComponentMacros.build(
-	"haxe/ui/extended/custom/inspector-field-ui.xml"))
-class InspectorField extends VBox{
+// @:build(haxe.ui.macros.ComponentMacros.build(
+// 	"haxe/ui/extended/custom/inspector-field-ui.xml"))
+class InspectorField extends TreeNode {
 
-    private var _expanded:Bool = true;
+    // private var _expanded:Bool = true;
     public var item:String = null;
     public var itemRenderer(get,set):String;
+    public var hasChildren = false;
+    public var tree:TreeView = null;
     function get_itemRenderer(){
         return item;
     }
     function set_itemRenderer(value:String){
         if(rendrerers.exists(value)){
-            feed.itemRenderer = rendrerers.get(value);
             item = value;
         } else{
             trace('Item renderer $value is not defined in rendrerers');
         }
         return value;
     }
+    public function getType(){
+        return rendrerers.get(item);
+    }
 
-    static var rendrerers:Map<String,ItemRenderer> = null;
-
+    static var rendrerers:Map<String,Class<Dynamic>> =[
+            "ifield-tparticle" => IfieldTparticle,
+            "ifield-tlod" => IfieldTlod,
+            "ifield-ttrait" => IfieldTtrait,
+            "ifield-string" => IfieldString
+        ];
     public var dataSource(get,set):DataSource<Dynamic>;
     function get_dataSource(){
-        return feed.dataSource;
+        return _dataSource;
     }
     function set_dataSource(ds:DataSource<Dynamic>){
-        feed.dataSource = ds;
-        return feed.dataSource;
+        _dataSource = ds;
+        return _dataSource;
     }
+    private var _dataSource:DataSource<Dynamic> = null;
 
-    public function new(){
-        super();
-        if(rendrerers == null){
-            rendrerers = [
-                "ifield-tparticle" => ComponentMacros.buildComponent("haxe/ui/extended/custom/ifield-tparticle.xml"),
-                "ifield-tlod" => ComponentMacros.buildComponent("haxe/ui/extended/custom/ifield-tlod.xml"),
-                "ifield-ttrait" => ComponentMacros.buildComponent("haxe/ui/extended/custom/ifield-ttrait.xml")
-            ];
-        }
-		feed.itemRenderer =  haxe.ui.macros.ComponentMacros.buildComponent(
-			"haxe/ui/extended/custom/ifield-string.xml");
-		this.percentWidth = 100.0;
-        name.registerEvent(MouseEvent.RIGHT_CLICK,addMenu);
-        expander.registerEvent(MouseEvent.RIGHT_CLICK,addMenu);
-    }
+    public function new(data:Dynamic = null, ptree:TreeView = null, item:String = null){
 
-    //expander interactions
-    @:bind(expander,MouseEvent.CLICK)
-    function clicked(e:MouseEvent) {
-        if (_expanded == false && feed.dataSource.size > 0) {
-            expander.resource = "img/control-270-small.png";
-            _expanded = true;
-            feed.show();
-        } 
-        else if(_expanded && feed.dataSource.size > 0){
-            expander.resource = "img/control-000-small.png";
-            _expanded = false;
-            feed.hide();
+        if(item != null && this.item == null){
+            this.item = item;
         }
-    }
-    @:bind(feed,UIEvent.CHANGE)
-    function changed(e:UIEvent){
-        if(e.data != null && Std.is(e.data,String) && e.data == "init"){
-            if(feed.dataSource ==null || feed.dataSource.size == 0){
-                _expanded =false;
-                expander.hide();
-                feed.hide();
+        else{
+            this.item = "ifield-string";
+        }
+            
+        if(ptree == null)
+            ptree = new TreeView();
+        tree = ptree;
+        tree.hide();
+
+        var ndata:NodeData = {name:"",type:"",path:""};
+        if(data != null){
+            for(f in Reflect.fields(ndata)){
+                if(Reflect.hasField(data,f)){
+                    var value = Reflect.field(data,f);
+                    Reflect.setProperty(ndata,f,value);
+                    this.hasChildren = true;
+                }
             }
         }
+        else {
+            if(text != null && text != ""){
+                ndata.name = text;
+            }
+        }
+        super(ndata,tree);
+
+        var comp:Component = null;
+        if(data != null && this.item != null){
+            comp = Type.createInstance(rendrerers.get(this.item),[]);
+            comp.marginLeft = 16;
+            for(c in comp.childComponents[0].childComponents){
+                for(field in Reflect.fields(data)){
+                    if(c.id == field){
+                        if(Std.is(c,InspectorField)){
+                            var ifield:InspectorField = cast(c);
+                            var value:Array<Dynamic> = Reflect.field(data,field);
+                            var ds = new ArrayDataSource<Dynamic>(new InspectorTypeTransformer());
+                            ifield.tree = this.tree;
+                            for(v in value){
+                                ds.add(v);
+                                var ndata = ds.get(ds.size-1);
+                                ifield.addField(ndata);
+                            }
+                            trace(ifield.id+":"+ifield.hasChildren);
+                        }
+                        else{
+                            c.value = Reflect.field(data,field);
+                        }
+                    }
+                }
+            }
+            this.addComponent(comp);
+            expander.resource = "img/control-270-small.png";
+        }
+    
+		this.percentWidth = 100.0;
+        // name.registerEvent(MouseEvent.RIGHT_CLICK,addMenu);
+        // expander.registerEvent(MouseEvent.RIGHT_CLICK,addMenu);
     }
-    @:bind(container,MouseEvent.RIGHT_CLICK)
-    function addMenu(e:MouseEvent){
-        trace("right_clicked");
+
+    public function addField(data:Dynamic,item:String =null){
+        _expanded = true;
+        this.hasChildren =true;
+        expander.resource = "img/control-270-small.png";
+        var newNode = new InspectorField(data,tree,item);
+        newNode.marginLeft = 16;
+        if(!newNode.hasChildren){
+            trace(newNode.text);
+            newNode.removeComponent(newNode.node);
+            newNode.removeComponent(newNode.expander);
+        }
+        newNode.parentNode = this;
+        addComponent(newNode);
+        return newNode;
+
+
     }
+
+    // @:bind(node,MouseEvent.RIGHT_CLICK)
+    // function addMenu(e:MouseEvent){
+    //     trace("right_clicked");
+    // }
 }

@@ -19,15 +19,14 @@ class InspectorTypeTransformer implements IItemTransformer<Dynamic> {
             o = {objectRef: i.object_ref, screenSize: i.screen_size};
         } else if(Reflect.hasField(i,"type") && Reflect.hasField(i,"class_name")){//TTrait
             var par =[];
-            if(Reflect.hasField(i,"parameters")){
-                var a:Array<String> = i.parameters; 
+            if(Reflect.hasField(i,"props")){
+                var a:Array<String> = i.props; 
                 for(p in a){
                     par.push(this.transformFrom(p));
                 }
             }
-            var props = Reflect.hasField(i,"props") ? i.props: [];
-            trace(par);
-            o = {typeName: i.type, className: i.class_name,parameters: par,props: props};
+            var t:Array<String> = i.class_name.split(".");
+            o = {type: "img/"+i.type.toLowerCase(), name: t[t.length-1],nameClass: i.class_name,props: par};
         }else {
             o = i;
         }

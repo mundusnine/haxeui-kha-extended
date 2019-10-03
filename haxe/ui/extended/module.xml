@@ -2,11 +2,10 @@
 <module id="kha-extended">
     <resources>
         <resource path="/haxe/ui/extended/_module/styles/dark" prefix="img" />
-        <resource path="/haxe/ui/extended/custom" prefix="custom" />
     </resources>
     <components>
         <class package="haxe.ui.extended" />
-        <class folder="/fields" />
+        <class folder="haxe/ui/extended/fields" />
     </components>
 
     <themes>

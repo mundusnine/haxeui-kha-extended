@@ -1,0 +1,4 @@
+<vbox id="iField" width="100%" >
+    <label id="nameClass"  width="100%" />
+    <inspectorfield id="props" text="Properties:" width="100%" />
+</vbox>
