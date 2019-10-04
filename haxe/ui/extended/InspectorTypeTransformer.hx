@@ -18,7 +18,7 @@ class InspectorTypeTransformer implements IItemTransformer<Dynamic> {
         } else if(Reflect.hasField(i,"object_ref") && Reflect.hasField(i,"screen_size")){//TLod
             o = {objectRef: i.object_ref, screenSize: i.screen_size};
         } else if(Reflect.hasField(i,"type") && Reflect.hasField(i,"class_name")){//TTrait
-            var par =[];
+            var par:Null<Array<String>> =null;
             if(Reflect.hasField(i,"props")){
                 var a:Array<String> = i.props; 
                 for(p in a){
@@ -27,6 +27,20 @@ class InspectorTypeTransformer implements IItemTransformer<Dynamic> {
             }
             var t:Array<String> = i.class_name.split(".");
             o = {type: "img/"+i.type.toLowerCase(), name: t[t.length-1],nameClass: i.class_name,props: par};
+        }else if(Reflect.hasField(i,"name") && Reflect.hasField(i,"value")){
+            if(Std.is(i.value,String)){
+                o = {name: i.name, str: i.value};
+            }else if( Std.is(i.value, Bool)){
+                o = {name: i.name,bool: i.value} ;
+            }else if( Std.is(i.value, Int)){
+                o = {name: i.name,int: i.value} ;
+            }else if( Std.is(i.value, Float)){
+                o = {name: i.name,float: i.value} ;
+            }
+            
+        }else if(Reflect.hasField(i,"name") && Reflect.hasField(i,"type")){
+            
+            
         }else {
             o = i;
         }

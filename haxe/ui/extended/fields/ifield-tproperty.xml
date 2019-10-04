@@ -1,0 +1,7 @@
+<vbox id="iField" width="100%" >
+    <textfield id="name"  width="100%" />
+    <textfield id="str"  width="100%" />
+    <checkbox id="bool"  width="100%" />
+    <numberstepper id="int" step="1" width="100%" />
+    <numberstepper id="float" step="0.01" width="100%" />
+</vbox>

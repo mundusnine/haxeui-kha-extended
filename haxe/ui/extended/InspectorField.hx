@@ -10,28 +10,24 @@ import haxe.ui.macros.ComponentMacros;
 import haxe.ui.extended.TreeNode;
 import haxe.ui.data.*;
 
-// @:build(haxe.ui.macros.ComponentMacros.build(
-// 	"haxe/ui/extended/custom/inspector-field-ui.xml"))
+
 class InspectorField extends TreeNode {
 
-    // private var _expanded:Bool = true;
-    public var item:String = null;
-    public var itemRenderer(get,set):String;
+    public var render:String =null;
+    var _item:String = "ifield-string";
+    public var item(get,set):String;
     public var hasChildren = false;
     public var tree:TreeView = null;
-    function get_itemRenderer(){
-        return item;
+    function get_item(){
+        return _item;
     }
-    function set_itemRenderer(value:String){
+    function set_item(value:String){
         if(rendrerers.exists(value)){
-            item = value;
+            _item = value;
         } else{
             trace('Item renderer $value is not defined in rendrerers');
         }
-        return value;
-    }
-    public function getType(){
-        return rendrerers.get(item);
+        return _item;
     }
 
     static var rendrerers:Map<String,Class<Dynamic>> =[
@@ -40,24 +36,15 @@ class InspectorField extends TreeNode {
             "ifield-ttrait" => IfieldTtrait,
             "ifield-string" => IfieldString
         ];
-    public var dataSource(get,set):DataSource<Dynamic>;
-    function get_dataSource(){
-        return _dataSource;
-    }
-    function set_dataSource(ds:DataSource<Dynamic>){
-        _dataSource = ds;
-        return _dataSource;
-    }
-    private var _dataSource:DataSource<Dynamic> = null;
 
-    public function new(data:Dynamic = null, ptree:TreeView = null, item:String = null){
+    public function new(data:Dynamic = null, ptree:TreeView = null, pitem:String = null){
 
-        if(item != null && this.item == null){
-            this.item = item;
+        if(pitem != null && this._item == "ifield-string"){
+            this.item = pitem;
         }
-        else{
-            this.item = "ifield-string";
-        }
+        // else if(render != null && this._item == "ifield-string"){
+        //     this.item =render;
+        // }
             
         if(ptree == null)
             ptree = new TreeView();
@@ -98,7 +85,6 @@ class InspectorField extends TreeNode {
                                 var ndata = ds.get(ds.size-1);
                                 ifield.addField(ndata);
                             }
-                            trace(ifield.id+":"+ifield.hasChildren);
                         }
                         else{
                             c.value = Reflect.field(data,field);
@@ -115,14 +101,13 @@ class InspectorField extends TreeNode {
         // expander.registerEvent(MouseEvent.RIGHT_CLICK,addMenu);
     }
 
-    public function addField(data:Dynamic,item:String =null){
+    public function addField(data:Dynamic){
         _expanded = true;
         this.hasChildren =true;
         expander.resource = "img/control-270-small.png";
-        var newNode = new InspectorField(data,tree,item);
+        var newNode = new InspectorField(data,tree,this.render);
         newNode.marginLeft = 16;
         if(!newNode.hasChildren){
-            trace(newNode.text);
             newNode.removeComponent(newNode.node);
             newNode.removeComponent(newNode.expander);
         }

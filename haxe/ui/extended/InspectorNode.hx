@@ -32,6 +32,8 @@ typedef InspectorData ={
     var groupref:String;
     var lods:Array<TLod>;
     var traits:Array<TTrait>;
+    var properties:Array<TProperty>;
+    var constraints:Array<TConstraint>;
     var objectActions:Array<String>;
     var boneActions:Array<String>;
     var visible:Bool;
@@ -52,8 +54,8 @@ class Resolver{
                 return "selected";
             case 'dataref' | 'groupref' | 'tilesheetActionRef' | 'tilesheetRef':
                 return "text";
-            case 'materialRefs' | 'objectActions' | 'boneActions' | 'particleRefs' | 'lods' | 'traits' | 'parameters':
-                return 'dataSource';
+            // case 'materialRefs' | 'objectActions' | 'boneActions' | 'particleRefs' | 'lods' | 'traits' | 'parameters':
+            //     return 'dataSource';
             default:
                 return "pos";
         }
@@ -81,20 +83,18 @@ class InspectorNode extends TreeNode {
             if(Reflect.hasField(this,f)){
                 var temp = Reflect.getProperty(this,f);
                 var type = Resolver.resolve(f);
-                if(type == 'dataSource'){
+                if(Std.is(temp,InspectorField)){
+
                     var value:Array<Dynamic> = Reflect.getProperty(data,f);
-                    var comp:InspectorField = findComponent(f,InspectorField);
                     ds.clear();
-                    if(comp.item != null)
-                        comp.itemRenderer = comp.item;
                     
-                    if(comp.text != null)
-                        comp.name.text = comp.text;
+                    if(temp.text != null)
+                        temp.name.text = temp.text;
 
                     for(v in value){
                         ds.add(v);
                         var ndata = ds.get(ds.size-1);
-                        comp.addField(ndata,comp.itemRenderer);
+                        temp.addField(ndata);
                     }
                 }
                 else{
