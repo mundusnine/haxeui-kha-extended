@@ -1,7 +1,14 @@
 <vbox id="iField" width="100%" >
     <textfield id="constrName"  width="100%" />
     <textfield id="constrType"  width="100%" />
-    <checkbox id="bool"  width="100%" />
-    <numberstepper id="int" step="1" width="100%" />
-    <numberstepper id="float" step="0.01" width="100%" />
+    <textfield id="bone"  width="100%" />
+    <textfield id="target"  width="100%" />
+    <checkbox id="useX"  width="100%" />
+    <checkbox id="useY"  width="100%" />
+    <checkbox id="useZ"  width="100%" />
+    <checkbox id="invertX"  width="100%" />
+    <checkbox id="invertY"  width="100%" />
+    <checkbox id="invertZ"  width="100%" />
+    <checkbox id="useOffset"  width="100%" />
+    <numberstepper id="influence" step="0.01" width="100%" />
 </vbox>

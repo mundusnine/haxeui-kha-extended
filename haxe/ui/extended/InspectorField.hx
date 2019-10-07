@@ -42,9 +42,6 @@ class InspectorField extends TreeNode {
         if(pitem != null && this._item == "ifield-string"){
             this.item = pitem;
         }
-        // else if(render != null && this._item == "ifield-string"){
-        //     this.item =render;
-        // }
             
         if(ptree == null)
             ptree = new TreeView();

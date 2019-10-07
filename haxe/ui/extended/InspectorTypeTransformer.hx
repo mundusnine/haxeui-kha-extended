@@ -18,7 +18,7 @@ class InspectorTypeTransformer implements IItemTransformer<Dynamic> {
         } else if(Reflect.hasField(i,"object_ref") && Reflect.hasField(i,"screen_size")){//TLod
             o = {objectRef: i.object_ref, screenSize: i.screen_size};
         } else if(Reflect.hasField(i,"type") && Reflect.hasField(i,"class_name")){//TTrait
-            var par:Null<Array<String>> =null;
+            var par:Array<String>=[];
             if(Reflect.hasField(i,"props")){
                 var a:Array<String> = i.props; 
                 for(p in a){
@@ -39,7 +39,28 @@ class InspectorTypeTransformer implements IItemTransformer<Dynamic> {
             }
             
         }else if(Reflect.hasField(i,"name") && Reflect.hasField(i,"type")){
-            
+            o = {
+                constrName: i.name, constrType: i.type,bone:"",target: "",
+                useX: false,useY: false, useZ: false,
+                invertX: false, invertY: false, invertZ: false, useOffset: false, influence: 0.0};
+                var temp:Map<String, Int> = [ "X" => 0, "Y"=>0, "Z"=>0];
+                for(f in Reflect.fields(o)){
+                    if(f == "constrType" || f== "constrName")
+                        continue;
+                    var of = f;
+                    if(temp.exists(f.charAt(f.length))){
+                        f = f.substr(0,f.length-1)+"_"+f.charAt(f.length).toLowerCase();
+                    }
+                    if(StringTools.endsWith(f,"Offset")){
+                        f = StringTools.replace(f,"Offset","_offset");
+                    }
+                    if(!Reflect.hasField(i,f)){
+                        Reflect.deleteField(o,of);
+                    }
+                    else{
+                        Reflect.setProperty(o,of,Reflect.field(i,f));
+                    }
+                }
             
         }else {
             o = i;
