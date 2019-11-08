@@ -7,12 +7,14 @@ import haxe.ui.core.Component;
 import haxe.ui.events.UIEvent;
 import haxe.ui.events.MouseEvent;
 import haxe.ui.extended.TreeNode;
-import haxe.ui.extended.NodeData;
 import haxe.ui.extended.InspectorField;
+import haxe.ui.extended.NodeData;
+import haxe.ui.extended.Util.Cli;
 import haxe.ui.data.*;
 
+#if arm_csm
 import iron.data.SceneFormat;
-
+import haxe.ui.extended.InspectorTypeTransformer;
 
 typedef InspectorData ={
     >NodeData,
@@ -63,29 +65,75 @@ class Resolver{
 }
 
 @:build(haxe.ui.macros.ComponentMacros.build("haxe/ui/extended/custom/inspector-node.xml"))
+#end
+#if coin
+import coin.data.SceneFormat;
+import coineditor.InspectorTypeTransformer;
+import Type;
+
+typedef InspectorData ={
+    >NodeData,
+    var px:Float;
+    var py:Float;
+    var pz:Float;
+    // var rx:Float;
+    // var ry:Float;
+    var rz:Float;
+    var sx:Float;
+    var sy:Float;
+    var w:Float;
+    var h:Float;
+    var active:Bool;
+    var imagePath:String;
+    // var sz:Float;
+    var traits:Array<TTrait>;
+}
+class Resolver{
+    static public function resolve(type:Dynamic){
+        var field = Type.typeof(type);
+        // trace(field);
+        switch(field){
+            case ValueType.TBool:
+                return "selected";
+            case ValueType.TClass(String):
+                return "text";
+            default:
+                return "pos";
+        }
+    }
+}
+
+@:build(haxe.ui.macros.ComponentMacros.build("haxe/ui/extended/custom/coin-inspector-node.xml"))
+#end
 class InspectorNode extends TreeNode {
 
-    public function new(data:InspectorData = null,tv:TreeView = null) {
+    public function new(data:InspectorData = null,tv:TreeView = null, updateData:UIEvent->Void =null) {
         super(data,tv);
         this.removeComponent(expander);
         //populate transform
         for(f in Reflect.fields(transform)){
             if(Reflect.hasField(data,f)){
                 var temp = Reflect.field(transform,f);
-                Reflect.setProperty(temp,Resolver.resolve(f),Reflect.field(data,f));
+                var out = Reflect.getProperty(data,f);
+                Reflect.setProperty(temp,Resolver.resolve(out),Reflect.field(data,f));
                 Reflect.setProperty(transform,f,temp);
+                temp.registerEvent(UIEvent.CHANGE,updateData);
             }
         }
 
         var ds = new ArrayDataSource<Dynamic>(new InspectorTypeTransformer());
         //populate the rest
-        for(f in Reflect.fields(data)){
-            if(Reflect.hasField(this,f)){
-                var temp = Reflect.getProperty(this,f);
-                var type = Resolver.resolve(f);
+        for(f in Reflect.fields(this)){
+            if(f == "transform" || StringTools.contains(f,"_"))continue;
+            var temp = Reflect.getProperty(this,f);
+            var isComponent = Std.is(temp,Component);
+            if(Reflect.hasField(data,f)){
+                
+                var out = Reflect.getProperty(data,f);
+                var type = Resolver.resolve(out);
                 if(Std.is(temp,InspectorField)){
 
-                    var value:Array<Dynamic> = Reflect.getProperty(data,f);
+                    var value:Array<Dynamic> = out;
                     ds.clear();
                     
                     if(temp.text != null)
@@ -98,13 +146,27 @@ class InspectorNode extends TreeNode {
                     }
                 }
                 else{
-                    Reflect.setProperty(temp,type,Reflect.getProperty(data,f));
+                    Reflect.setProperty(temp,type,out);
                 }
-                
+                if(isComponent && updateData != null){
+                    temp.registerEvent(UIEvent.CHANGE,updateData);
+                }
+                    
                 Reflect.setProperty(this,f,temp);
+            }
+            else if( isComponent && !Std.is(temp,InspectorField) && f != "expander"){
+                #if editor_dev
+                trace(Cli.yellow+"WARNING:"+Cli.reset+'Component with id $f was removed because the data did not have it');
+                #end
+                // this.removeComponent(Reflect.getProperty(this,f));
+                this.removeComponent(Reflect.getProperty(this,'box$f'));
             }
         }
         ins_hbox.invalidateComponent();
+    }
+
+    function updateData(){
+        
     }
 
     public override function addNode(data:NodeData) {

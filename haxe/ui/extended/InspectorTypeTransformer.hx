@@ -1,7 +1,7 @@
 package haxe.ui.extended;
 
 import haxe.ui.data.transformation.IItemTransformer;
-import iron.data.SceneFormat;
+// import iron.data.SceneFormat;
 
 class InspectorTypeTransformer implements IItemTransformer<Dynamic> {
     public function new() {

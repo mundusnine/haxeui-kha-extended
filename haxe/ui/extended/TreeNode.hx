@@ -23,7 +23,7 @@ class TreeNode extends VBox {
 
     public function new(data:NodeData = null,tv:TreeView = null){
         super();
-        percentWidth = _hbox.percentWidth = node.percentWidth = 100.0;
+        percentWidth = _hbox.percentWidth = u_node.percentWidth = 100.0;
         _tv = tv;
         _data = data;
         name.text = data.name;
@@ -36,25 +36,25 @@ class TreeNode extends VBox {
         }
     }
 
-    //node interactions
-    @:bind(node, MouseEvent.CLICK)
+    //_node interactions
+    @:bind(u_node, MouseEvent.CLICK)
     function selected(e:UIEvent){
-        trace("Clicked node"+name.text);
+        
         var f = _tv.feed;
         if (_tv.selectedNode == this) {
             return;
         }
         
-        if (_tv.selectedNode != null && _tv.selectedNode.findComponent("node") != null) {
-            var comp:Component = _tv.selectedNode.findComponent("node");
+        if (_tv.selectedNode != null && _tv.selectedNode.findComponent("u_node") != null) {
+            var comp:Component = _tv.selectedNode.findComponent("u_node");
             comp.removeClass(":selected");
             _tv.selectedNode = null;
         }
-        node.addClass(":selected");
+        u_node.addClass(":selected");
         _tv.selectedNode = this;
         
         var delta = (_tv.selectedNode.screenTop - f.screenTop + f.vscrollPos);
-        trace("vscrollpos: "+f.vscrollPos+" height: "+f.height);
+        // trace("vscrollpos: "+f.vscrollPos+" height: "+f.height);
         if (delta < f.vscrollPos || delta > f.height - 10) {
             delta -= _tv.selectedNode.height + 10;
             if (delta > f.vscrollMax) {
@@ -65,13 +65,13 @@ class TreeNode extends VBox {
         
         _tv.dispatch(new UIEvent(UIEvent.CHANGE));
     }
-    @:bind(node,MouseEvent.MOUSE_OVER)
+    @:bind(u_node,MouseEvent.MOUSE_OVER)
     function onHover(e:MouseEvent){
-        node.addClass(":hover");
+        u_node.addClass(":hover");
     }
-    @:bind(node,MouseEvent.MOUSE_OUT)
+    @:bind(u_node,MouseEvent.MOUSE_OUT)
     function onOut(e:MouseEvent){
-        node.removeClass(":hover");
+        u_node.removeClass(":hover");
     }
 
     //expander interactions

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <hbox id="_hbox">
     <image id="expander" resource="img/control-000-small.png" style="vertical-align: center;cursor:pointer;" />
-    <hbox id="node" style="vertical-align: center">
+    <hbox id="u_node" style="vertical-align: center">
         <image id="type"  style="vertical-align: center;" />
         <label id="name"  style="vertical-align: center;" />
     </hbox>

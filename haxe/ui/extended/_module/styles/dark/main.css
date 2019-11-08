@@ -237,16 +237,16 @@
     border-radius: 2px;
 }
 
-TreeNode,#_hbox,#node {
+TreeNode,#_hbox,#u_node {
     background-color: #1e1e1e;
 
 }
 
-#node {
+#u_node {
     padding: 4px;
 }
 
-#node:hover, .itemrenderer:hover {
+#u_node:hover, .itemrenderer:hover {
     border-radius: 1px;
     border: 1px solid #007ACC;
 }    

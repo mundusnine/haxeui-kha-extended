@@ -10,6 +10,12 @@ import haxe.ui.macros.ComponentMacros;
 import haxe.ui.extended.TreeNode;
 import haxe.ui.data.*;
 
+#if coin
+import coineditor.InspectorTypeTransformer;
+#else
+import haxe.ui.extended.InspectorTypeTransformer;
+#end
+
 
 class InspectorField extends TreeNode {
 
@@ -105,7 +111,7 @@ class InspectorField extends TreeNode {
         var newNode = new InspectorField(data,tree,this.render);
         newNode.marginLeft = 16;
         if(!newNode.hasChildren){
-            newNode.removeComponent(newNode.node);
+            newNode.removeComponent(newNode.u_node);
             newNode.removeComponent(newNode.expander);
         }
         newNode.parentNode = this;

@@ -10,6 +10,7 @@ import haxe.ui.extended.InspectorNode;
 
 class InspectorView extends TreeView {
 
+    public var updateData:UIEvent->Void = null;
     var curNode:InspectorNode = null;
     override function get_dataSource(){
         return i_dataSource;
@@ -30,7 +31,7 @@ class InspectorView extends TreeView {
     }
     public override function addNode(data:NodeData):Void {
         if(!filterOut(data.name)){
-            curNode  = new InspectorNode(cast(data),this);
+            curNode  = new InspectorNode(cast(data),this,updateData);
             feed.addComponent(curNode);
         }
     }
