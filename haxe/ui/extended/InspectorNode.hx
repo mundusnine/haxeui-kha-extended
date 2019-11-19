@@ -154,7 +154,7 @@ class InspectorNode extends TreeNode {
                     
                 Reflect.setProperty(this,f,temp);
             }
-            else if( isComponent && !Std.is(temp,InspectorField) && f != "expander"){
+            else if( isComponent && !Std.is(temp,InspectorField) && f != "expander" && Reflect.getProperty(this,'box$f') != null){
                 #if editor_dev
                 trace(Cli.yellow+"WARNING:"+Cli.reset+'Component with id $f was removed because the data did not have it');
                 #end
@@ -165,8 +165,15 @@ class InspectorNode extends TreeNode {
         ins_hbox.invalidateComponent();
     }
 
-    function updateData(){
-        
+    public function updateNode(data:InspectorData){
+        for(f in Reflect.fields(transform)){
+            if(Reflect.hasField(data,f)){
+                var temp = Reflect.field(transform,f);
+                var out = Reflect.getProperty(data,f);
+                Reflect.setProperty(temp,Resolver.resolve(out),Reflect.field(data,f));
+                Reflect.setProperty(transform,f,temp);
+            }
+        }
     }
 
     public override function addNode(data:NodeData) {

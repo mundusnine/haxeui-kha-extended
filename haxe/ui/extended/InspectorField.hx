@@ -121,7 +121,7 @@ class InspectorField extends TreeNode {
 
     }
 
-    // @:bind(node,MouseEvent.RIGHT_CLICK)
+    // @:bind(u_node,MouseEvent.RIGHT_CLICK)
     // function addMenu(e:MouseEvent){
     //     trace("right_clicked");
     // }
