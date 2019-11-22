@@ -114,7 +114,7 @@ class FileSystem {
 		var files = str.split("\n");
 		#elseif kha_kore
 
-		path = fixPath(path,kha.System.systemId);
+		path = fixPath(path);
 		var files = sys.FileSystem.isDirectory(path) ? sys.FileSystem.readDirectory(path) : [];
 
 		#elseif kha_webgl
