@@ -11,7 +11,7 @@ import haxe.ui.extended.InspectorNode;
 class InspectorView extends TreeView {
 
     public var updateData:UIEvent->Void = null;
-    var curNode:InspectorNode = null;
+    public var curNode:InspectorNode = null;
     override function get_dataSource(){
         return i_dataSource;
     }
