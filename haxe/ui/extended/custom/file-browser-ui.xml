@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <vbox id="container" width="100%"  height="100%" >
-    <label id="path" width="100%" height="3%" />
-    <listview id="feed" width="100%" height="97%" />
+    <label id="path" width="100%"  />
+    <listview id="feed" width="100%"  />
+    <textfield id="filepath" text="testing" width="100%"  />
 </vbox>

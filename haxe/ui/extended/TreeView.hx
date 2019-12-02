@@ -44,9 +44,10 @@ class TreeView extends VBox {
         }
     }
     
-    function clear() {
+    public function clear() {
         selectedNode = null;
-        feed.removeAllComponents();
+        var contents:Component = findComponent("scrollview-contents");
+        contents.removeAllComponents();
     }
     
     public function findNode(path:String):TreeNode {
