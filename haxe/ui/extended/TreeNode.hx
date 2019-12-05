@@ -2,8 +2,10 @@ package haxe.ui.extended;
 
 import haxe.ui.containers.VBox;
 import haxe.ui.containers.HBox;
+import haxe.ui.containers.menus.*;
 import haxe.ui.components.Label;
 import haxe.ui.core.Component;
+import haxe.ui.core.Screen;
 import haxe.ui.events.UIEvent;
 import haxe.ui.events.MouseEvent;
 
@@ -34,6 +36,23 @@ class TreeNode extends VBox {
                 expander.resource = "img/control-000-small.png";
             }
         }
+    }
+
+    @:bind(u_node, MouseEvent.RIGHT_CLICK)
+    function onRightclickcall(e:MouseEvent) {
+        selected(e);
+        var menu = new Menu();
+        for(i in _tv.rclickItems){
+            var item = new MenuItem();
+            item.text  = i.name;
+            item.expandable = i.expands;
+            item.onClick = i.onClicked;
+            menu.addComponent(item);
+        }
+        menu.show();
+        menu.left = e.screenX;
+        menu.top = e.screenY;
+        Screen.instance.addComponent(menu);
     }
 
     //_node interactions
