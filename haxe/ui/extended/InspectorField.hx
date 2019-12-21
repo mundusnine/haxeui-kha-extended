@@ -8,6 +8,7 @@ import haxe.ui.core.ItemRenderer;
 import haxe.ui.core.Component;
 import haxe.ui.macros.ComponentMacros;
 import haxe.ui.extended.TreeNode;
+import haxe.ui.extended.TreeView.TItem;
 import haxe.ui.data.*;
 
 #if coin
@@ -24,6 +25,15 @@ class InspectorField extends TreeNode {
     public var item(get,set):String;
     public var hasChildren = false;
     public var tree:TreeView = null;
+    public var rclickItems(default,set):Array<TItem> = [];
+    function set_rclickItems(items:Array<TItem>){
+        for(i in items){
+            if(this.id == i.filter){
+                rclickItems.push(i);
+            }
+        }
+        return rclickItems;
+    }
     function get_item(){
         return _item;
     }

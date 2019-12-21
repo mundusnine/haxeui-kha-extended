@@ -127,12 +127,13 @@ class InspectorNode extends TreeNode {
             if(f == "transform" || StringTools.contains(f,"_"))continue;
             var temp = Reflect.getProperty(this,f);
             var isComponent = Std.is(temp,Component);
+            
             if(Reflect.hasField(data,f)){
                 
                 var out = Reflect.getProperty(data,f);
                 var type = Resolver.resolve(out);
                 if(Std.is(temp,InspectorField)){
-
+                    if(tv.rclickItems != null)temp.tree.rclickItems = tv.rclickItems; 
                     var value:Array<Dynamic> = out;
                     ds.clear();
                     
@@ -163,6 +164,7 @@ class InspectorNode extends TreeNode {
             }
         }
         ins_hbox.invalidateComponent();
+        tv.rclickItems = [];
     }
 
     public function updateNode(data:InspectorData){

@@ -15,11 +15,8 @@ import haxe.ui.events.MouseEvent;
 class TreeNode extends VBox {
 
     public var parentNode:TreeNode = null;
-    public var data(get,null):NodeData;
-    function get_data(){
-        return _data;
-    }
-    private var _data:NodeData = null;
+    public var data(default,never):NodeData;
+    
     private var _expanded:Bool = false;
     private var _tv:TreeView = null;
 
@@ -27,7 +24,7 @@ class TreeNode extends VBox {
         super();
         percentWidth = _hbox.percentWidth = u_node.percentWidth = 100.0;
         _tv = tv;
-        _data = data;
+        Reflect.setField(this,"data",data);
         name.text = data.name;
         type.resource = data.type;
         expander.resource = "img/blank.png";
@@ -40,6 +37,7 @@ class TreeNode extends VBox {
 
     @:bind(u_node, MouseEvent.RIGHT_CLICK)
     function onRightclickcall(e:MouseEvent) {
+        if(_tv.rclickItems.length == 0)return;
         selected(e);
         var menu = new Menu();
         for(i in _tv.rclickItems){

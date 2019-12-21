@@ -12,6 +12,7 @@ typedef TItem ={
     var name:String;
     var expands:Bool;
     var onClicked:MouseEvent->Void;
+    var ?filter:String;
 }
 
 @:build(haxe.ui.macros.ComponentMacros.build(
