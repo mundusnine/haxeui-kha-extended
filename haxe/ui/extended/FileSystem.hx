@@ -1,7 +1,7 @@
 package haxe.ui.extended;
 
 class FileSystem {
-
+	#if !macro
     public static var dataPath = "";
     public static var curDir:String = "";
     public static var sep ="/";
@@ -18,6 +18,7 @@ class FileSystem {
 		// %HOMEDRIVE% + %HomePath%
 		// ~
 	}
+	
 	static public function fixPath(path:String){
 		#if kha_webgl
 		var systemId = "None";
@@ -195,12 +196,13 @@ class FileSystem {
 		throw "Target platform doesn't support creating a directory";
 		#end
 	}
+	#end// !macro
 	public static function saveToFile(path:String,data:haxe.io.Bytes,onDone:Void->Void = null){
 		#if kha_krom
 		Krom.fileSaveBytes(path,data.getData());
 		if(onDone!= null)
 			onDone();
-		#elseif kha_kore
+		#elseif (kha_kore || macro)
 		sys.io.File.saveBytes(path,data);
 		if(onDone!= null)
 			onDone();
