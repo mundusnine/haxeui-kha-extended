@@ -196,6 +196,28 @@ class FileSystem {
 		throw "Target platform doesn't support creating a directory";
 		#end
 	}
+	
+	public static function getContent(path:String,onDone:String->Void):Void{
+		if(FileSystem.exists(path)){
+			var data = "";
+			#if kha_krom
+			var buffer = Krom.loadBlob(path);
+			onDone(buffer.toString());// @:Incomplete we need to test this
+			#elseif kha_kore
+			data = sys.io.File.getContent(path);
+			onDone();
+			#elseif kha_webgl
+			untyped require('fs').readFile(path,'utf8',function (err,data){
+				if(err) throw err;
+				onDone(data);
+			});
+			#else
+			throw "Target platform doesn't support saving data to files";
+			#end
+			
+		}
+	}
+
 	#end// !macro
 	public static function saveToFile(path:String,data:haxe.io.Bytes,onDone:Void->Void = null){
 		#if kha_krom

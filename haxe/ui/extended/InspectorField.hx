@@ -90,13 +90,10 @@ class InspectorField extends TreeNode {
                     if(c.id == field){
                         if(Std.is(c,InspectorField)){
                             var ifield:InspectorField = cast(c);
-                            var value:Array<Dynamic> = Reflect.field(data,field);
-                            var ds = new ArrayDataSource<Dynamic>(new InspectorTypeTransformer());
+                            var values:Array<Dynamic> = Reflect.field(data,field);
                             ifield.tree = this.tree;
-                            for(v in value){
-                                ds.add(v);
-                                var ndata = ds.get(ds.size-1);
-                                ifield.addField(ndata);
+                            for(v in values){
+                                ifield.addField(v);
                             }
                         }
                         else{
@@ -114,7 +111,9 @@ class InspectorField extends TreeNode {
         // expander.registerEvent(MouseEvent.RIGHT_CLICK,addMenu);
     }
 
+    static var transformer:InspectorTypeTransformer = new InspectorTypeTransformer();
     public function addField(data:Dynamic){
+        data = transformer.transformFrom(data);
         _expanded = true;
         this.hasChildren =true;
         expander.resource = "img/control-270-small.png";
