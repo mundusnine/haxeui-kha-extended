@@ -4,6 +4,7 @@ import haxe.ui.core.Component;
 import haxe.ui.containers.VBox;
 import haxe.ui.events.UIEvent;
 import haxe.ui.data.ListDataSource;
+import kha.FileSystem;
 
 @:build(haxe.ui.macros.ComponentMacros.build(
 	"haxe/ui/extended/custom/file-browser-ui.xml"))

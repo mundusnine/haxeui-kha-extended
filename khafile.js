@@ -1,6 +1,4 @@
-let project = new Project('New Project');
-project.addAssets('Assets/**');
-project.addShaders('Shaders/**');
+let project = new Project('haxeui-kha-extended');
+project.addAssets('Assets/*');
 project.addSources('Sources');
-project.addLibrary('haxeui-kha-extended');
 resolve(project);
