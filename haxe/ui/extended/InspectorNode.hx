@@ -66,8 +66,8 @@ class Resolver{
 
 @:build(haxe.ui.macros.ComponentMacros.build("haxe/ui/extended/custom/inspector-node.xml"))
 #end
-#if coin
-import coin.data.SceneFormat;
+#if found
+import found.data.SceneFormat;
 import coineditor.InspectorTypeTransformer;
 import Type;
 
