@@ -2,5 +2,5 @@
 <vbox id="container" width="100%"  height="100%" >
     <label id="path" width="100%"  />
     <listview id="feed" width="100%"  />
-    <textfield id="filepath" text="testing" width="100%"  />
+    <textfield id="filepath" width="100%"  />
 </vbox>
