@@ -103,7 +103,7 @@ class Resolver{
     }
 }
 
-@:build(haxe.ui.macros.ComponentMacros.build("haxe/ui/extended/custom/coin-inspector-node.xml"))
+@:build(haxe.ui.macros.ComponentMacros.build("haxe/ui/extended/custom/found-inspector-node.xml"))
 #end
 class InspectorNode extends TreeNode {
 

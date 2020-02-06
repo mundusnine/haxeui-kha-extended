@@ -1,0 +1,30 @@
+<vbox width="100%" >
+    <hbox id="pos" width="100%">
+        <label text="P" width="4%"/>
+        <label text="x " width="3%" />
+        <numberstepper id="px" pos="0.0" step="0.1"  width="45%" />
+        <label text="y " width="3%"/>
+        <numberstepper id="py" pos="0.0" step="0.1" width="45%" />
+    </hbox>
+    <hbox width="100%">
+        <label text="R" width="7%"/>
+        <numberstepper id="rz" text="  " pos="0.0" width="96%" />
+    </hbox>
+    <hbox id="scale" width="100%">
+        <label text="S  " width="4%"/>
+        <label text="x " width="3%"/>
+        <numberstepper id="sx" pos="0.0" step="0.1" width="45%" />
+        <label text="y " width="3%" />
+        <numberstepper id="sy" pos="0.0" step="0.1"  width="45%" />
+    </hbox>
+    <hbox width="100%" >
+        <label text="depth  "/>
+        <numberstepper id="pz" pos="0.0" step="1.0" />
+    </hbox>
+    <vbox width="100%">
+        <label text="width"/>
+        <numberstepper id="w" pos="0.0" />
+        <label text="height"/>
+        <numberstepper id="h" pos="0.0" />
+    </vbox>
+</vbox>

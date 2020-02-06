@@ -1,5 +1,3 @@
 
 build/
 .vscode/
-haxe/ui/extended/fields/cointransform.xml
-haxe/ui/extended/custom/coin-inspector-node.xml
