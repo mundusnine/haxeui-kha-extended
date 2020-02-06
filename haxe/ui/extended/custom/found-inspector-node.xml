@@ -2,7 +2,7 @@
 <hbox id="ins_hbox" width="100%" >
     <vbox id="_content" width="100%" style="vertical-align: center">
         <checkbox id="active" text="active" width="100%"/>
-        <cointransform id="transform" width="100%"/>
+        <foundtransform id="transform" width="100%"/>
         <hbox id="boximagePath" width="100%">
             <label text="Image:" width="15%" />
             <textfield id="imagePath" width="70%"/>

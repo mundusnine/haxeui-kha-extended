@@ -5,7 +5,7 @@
     </resources>
     <components>
         <class package="haxe.ui.extended" />
-        <class folder="haxe/ui/extended/fields" />
+        <class folder="../Libraries/foundsdk/haxeui-kha-extended/haxe/ui/extended/fields" />
     </components>
 
     <themes>
