@@ -11,7 +11,7 @@ import haxe.ui.extended.TreeNode;
 import haxe.ui.extended.TreeView.TItem;
 import haxe.ui.data.*;
 
-#if coin
+#if found
 import coineditor.InspectorTypeTransformer;
 #else
 import haxe.ui.extended.InspectorTypeTransformer;
@@ -50,11 +50,12 @@ class InspectorField extends TreeNode {
             "ifield-tparticle" => IfieldTparticle,
             "ifield-tlod" => IfieldTlod,
             "ifield-ttrait" => IfieldTtrait,
+            "ifield-rigidbody" => IfieldRigidbody,
+            "ifield-shape" => IfieldShape,
             "ifield-string" => IfieldString
         ];
 
     public function new(data:Dynamic = null, ptree:TreeView = null, pitem:String = null){
-
         if(pitem != null && this._item == "ifield-string"){
             this.item = pitem;
         }

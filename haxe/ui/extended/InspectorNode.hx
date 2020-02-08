@@ -87,6 +87,7 @@ typedef InspectorData ={
     var imagePath:String;
     // var sz:Float;
     var traits:Array<TTrait>;
+    var rigidBody:echo.data.Options.BodyOptions;
 }
 class Resolver{
     static public function resolve(type:Dynamic){
@@ -125,13 +126,14 @@ class InspectorNode extends TreeNode {
         //populate the rest
         for(f in Reflect.fields(this)){
             if(f == "transform" || StringTools.contains(f,"_"))continue;
+            
             var temp = Reflect.getProperty(this,f);
             var isComponent = Std.is(temp,Component);
             
             if(Reflect.hasField(data,f)){
-                
                 var out = Reflect.getProperty(data,f);
                 var type = Resolver.resolve(out);
+                
                 if(Std.is(temp,InspectorField)){
                     if(tv.rclickItems != null)temp.tree.rclickItems = tv.rclickItems; 
                     var value:Array<Dynamic> = out;
@@ -142,6 +144,11 @@ class InspectorNode extends TreeNode {
 
                     for(v in value){
                         ds.add(v);
+                        var ndata = ds.get(ds.size-1);
+                        temp.addField(ndata);
+                    }
+                    if(!Std.is(out,Array)){
+                        ds.add(out);
                         var ndata = ds.get(ds.size-1);
                         temp.addField(ndata);
                     }

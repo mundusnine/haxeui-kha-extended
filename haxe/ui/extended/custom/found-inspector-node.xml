@@ -12,5 +12,9 @@
             <inspectorfield id="traits" text="Traits:"  width="90%" render="ifield-ttrait" />
             <button id="addTraits" width="10%" text="+" />
         </hbox>
+        <hbox width="100%">
+            <inspectorfield id="rigidBody" text="Rigidbody:"  width="90%" render="ifield-rigidbody" />
+            <button id="addRigidbody" width="10%" text="+" />
+        </hbox>
     </vbox>
 </hbox>
