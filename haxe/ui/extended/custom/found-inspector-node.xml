@@ -6,7 +6,7 @@
         <hbox id="boximagePath" width="100%">
             <label text="Image:" width="15%" />
             <textfield id="imagePath" width="70%"/>
-            <button id="_fbimage" text="..." width="15%"/>
+            <button id="browseImage" text="..." width="15%"/>
         </hbox>
         <hbox width="100%">
             <inspectorfield id="traits" text="Traits:"  width="90%" render="ifield-ttrait" />
