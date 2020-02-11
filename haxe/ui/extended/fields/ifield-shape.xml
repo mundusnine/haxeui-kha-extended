@@ -1,17 +1,17 @@
 <vbox id="iField" width="100%" >
-    <dropdown id="type" text="Shape Type: ">
+    <dropdown id="type" text="Shape Type ">
         <data>
             <item value="Rectangle" />
             <item value="Circle" />
             <item value="Polygon" />
         </data>
     </dropdown>
-    <checkbox id="solid" value="false" width="100%" />
-    <numberstepper id="radius" value="0.0" width="100%" />
+    <checkbox id="solid" text="Is Solid" value="false" width="100%" />
+    <numberstepper id="radius" text="Radius" value="0.0" width="100%" />
     <numberstepper id="w"  text="width" value="0.0" width="100%" />
     <numberstepper id="h" text="height" value="0.0" width="100%" />
     <button id="vertices" text="Edit vertices" width="100%" />
-    <numberstepper id="rotation" value="0.0" width="100%" />
-    <numberstepper id="offset_x" value="0.0" width="100%" />
-    <numberstepper id="offset_y" value="0.0" width="100%" />
+    <numberstepper id="rotation" text="Rotation" value="0.0" width="100%" />
+    <numberstepper id="offset_x" text="X Offset" value="0.0" width="100%" />
+    <numberstepper id="offset_y" text="Y Offset" value="0.0" width="100%" />
 </vbox>

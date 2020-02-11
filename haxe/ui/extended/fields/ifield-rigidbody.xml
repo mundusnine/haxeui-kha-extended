@@ -1,15 +1,15 @@
 <vbox id="iField" width="100%" >
     <checkbox id="kinematic" value="false" width="100%" />
-    <numberstepper id="mass" value="0.0" width="100%" />
-    <numberstepper id="x" value="0.0" width="100%" />
-    <numberstepper id="y" value="0.0" width="100%" />
-    <numberstepper id="elasticity" value="0.0" width="100%" />
-    <numberstepper id="velocity_x" value="0.0" width="100%" />
-    <numberstepper id="velocity_y" value="9.8" width="100%" />
-    <numberstepper id="max_velocity_x" value="0.0" width="100%" />
-    <numberstepper id="max_velocity_y" value="0.0" width="100%" />
-    <numberstepper id="drag_x" value="0.0" width="100%" />
-    <numberstepper id="drag_y" value="0.0" width="100%" />
+    <numberstepper id="mass" text="Mass" value="0.0" width="100%" />
+    <numberstepper id="x" text="x" value="0.0" width="100%" />
+    <numberstepper id="y" text="y" value="0.0" width="100%" />
+    <numberstepper id="elasticity" text="Elasticity" value="0.0" width="100%" />
+    <numberstepper id="velocity_x" text="Velocity X" value="0.0" width="100%" />
+    <numberstepper id="velocity_y" text="Velocity Y" value="9.8" width="100%" />
+    <numberstepper id="max_velocity_x" text="Max Velocity X" value="0.0" width="100%" />
+    <numberstepper id="max_velocity_y" text="Max Velocity Y" value="0.0" width="100%" />
+    <numberstepper id="drag_x" text="Drag X" value="0.0" width="100%" />
+    <numberstepper id="drag_y" text="Drag Y" value="0.0" width="100%" />
     <hbox width="100%">
         <inspectorfield id="shapes" text="Colliders:" width="90%" render="ifield-shape" />
         <button id="addShape" width="10%" text="+" />
