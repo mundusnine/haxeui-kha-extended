@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <vbox id="container" width="100%" height="100%" >
-    <hbox width="100%" height="5%" >
+    <hbox width="100%" height="4%" >
         <label id="path"  />
-        <button id="addResource" text="+"  />
+        <button id="importAssets" text="Import Assets"  />
     </hbox>
     <treeview id="tree" height="97%" />
 </vbox>
