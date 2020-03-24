@@ -4,7 +4,7 @@ import haxe.ui.core.Component;
 import haxe.ui.containers.VBox;
 import haxe.ui.events.UIEvent;
 import haxe.ui.data.ListDataSource;
-import kha.FileSystem;
+import khafs.Fs;
 
 @:build(haxe.ui.macros.ComponentMacros.build(
 	"haxe/ui/extended/custom/file-browser-ui.xml"))
@@ -36,18 +36,18 @@ class FileBrowser extends VBox {
 	function selectedDir(e){
 		var folder:NodeData = feed.selectedItem;
 		if(folder.name == ".."){
-			var path = FileSystem.curDir;
+			var path = Fs.curDir;
 			var i1 = path.indexOf("/");
 			var i2 = path.indexOf("\\");
 			var nested =
 				(i1 > -1 && path.length - 1 > i1) ||
 				(i2 > -1 && path.length - 1 > i2);
 			if (nested) {
-				path = path.substring(0, path.lastIndexOf(FileSystem.sep));
+				path = path.substring(0, path.lastIndexOf(Fs.sep));
 				if(path == "")
-					path = path += FileSystem.sep;
+					path = path += Fs.sep;
 				// Drive root
-				if (path.length == 2 && path.charAt(1) == ":") path += FileSystem.sep;
+				if (path.length == 2 && path.charAt(1) == ":") path += Fs.sep;
 			}
 			Handler.updateData(this,path);
 		}
